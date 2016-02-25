@@ -35,6 +35,17 @@ docker run -d -p 80:3838 \
     rocker/shiny
 ```
 
+If you need to run some code before ShinyServer (e.g. install packages) and don't want to build your own image, you can put it in a directory mounted at `/docker-entrpoint-init.d`. R and sh files will be executed in lexical order. For example, to set up `dplyr`:
+
+### 01-libmysqlclient.sh:
+
+	#!/usr/bin/env bash
+	sudo apt-get install -y libmysqlclient-dev
+
+### 02-install\_packages.R
+    install.packages(c("ggplot2","ggmap","RMySQL","dplyr"))
+
+These scripts are run each time the container starts, before ShinyServer is run.
 
 ## Trademarks
 
